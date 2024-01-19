@@ -21,7 +21,7 @@
     </div>
     <div class="container">
         <h2>Here's what you said last time:</h2>
-        <p>You said you were <span id="happiness"></span> happy.</p>
+        <p>You said you were happy at <span id="happiness"></span> out of 10.</p>
         <p id="label-last-notes">You also said:</p>
         <div id="last-notes" class="notes"></div>
         <style>
@@ -110,8 +110,8 @@
         const lastRecordedHappiness = happinessData[happinessData.length - 1].happiness;
         const lastRecordedNotes = happinessData[happinessData.length - 1].notes;
         const lastRecordedHours = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60 / 60);
-        const lastRecordedMinutes = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60);
-        const lastRecordedSeconds = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000);
+        const lastRecordedMinutes = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60) - lastRecordedHours * 60;
+        const lastRecordedSeconds = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000) - lastRecordedMinutes * 60;
         const lastRecordedTimeDifference = lastRecordedHours + " hours, " + lastRecordedMinutes + " minutes, " + lastRecordedSeconds + " seconds";
 
         // Display last recorded time

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happiness Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="jumbotron" style="background-color: #b6ffed;">
+        <div class="container">
+            <h1>Happiness Tracker</h1>
+        </div>
+    </div>
+    <div class="container">
+        <h2>It's <span id="date"></span>.</h2>
+        <p>You recorded your happiness last time on <span id="lastDate"></span>.</p>
+    </div>
+    <div class="container">
+        <h2>Here's what you said last time:</h2>
+        <p>You said you were <span id="happiness"></span> happy.</p>
+        <p>You also said: <span id="notes"></span></p>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="happiness-form">How happy are you now?</label>
+                <input type="range" class="form-control-range" id="happiness-form" min="0" max="10" step="1" value="5" list="happiness-scale" />
+                <datalist id="happiness-scale">
+                    <label>0</label>
+                    <option value="0"></option>
+                    <label>1</label>
+                    <option value="1"></option>
+                    <label>2</label>
+                    <option value="2"></option>
+                    <label>3</label>
+                    <option value="3"></option>
+                    <label>4</label>
+                    <option value="4"></option>
+                    <label>5</label>
+                    <option value="5"></option>
+                    <label>6</label>
+                    <option value="6"></option>
+                    <label>7</label>
+                    <option value="7"></option>
+                    <label>8</label>
+                    <option value="8"></option>
+                    <label>9</label>
+                    <option value="9"></option>
+                    <label>10</label>
+                    <option value="10"></option>
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="notes-form">Notes</label>
+                <textarea class="form-control" id="notes-form" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" id="submit-form">Save</button>
+        </form>
+    </div>
+    <div class="container">
+        <canvas id="happinessChart"></canvas>
+    </div>
+    
+    <br>
+
+    <div class="container">
+        <button class="btn btn-danger" id="clear-data">Clear Data</button>
+    </div>
+
+    <br>
+
+    <script>
+        // clean the local storage
+        // localStorage.clear();
+        const date = new Date();
+        const today = date.toDateString();
+        document.getElementById("date").innerHTML = today;
+    
+        // Load previous data from local storage
+        let happinessData = JSON.parse(localStorage.getItem("happinessData")) || [];
+    
+        // Display last recorded date
+        if (happinessData.length > 0) {
+            const lastRecordedDate = new Date(happinessData[happinessData.length - 1].date).toDateString();
+            document.getElementById("lastDate").innerHTML = lastRecordedDate;
+            document.getElementById("happiness").innerHTML = happinessData[happinessData.length - 1].happiness;
+            document.getElementById("notes").innerHTML = happinessData[happinessData.length - 1].notes;
+        }
+    
+        // Event listener for the form submission
+        document.getElementById("submit-form").addEventListener("click", function (event) {
+            event.preventDefault();
+    
+            // Get values from the form
+            const happinessValue = document.getElementById("happiness-form").value;
+            const notesValue = document.getElementById("notes-form").value;
+    
+            // Save the data to local storage
+            const currentDate = new Date();
+            const record = {
+                date: currentDate.toISOString(),
+                happiness: happinessValue,
+                notes: notesValue
+            };
+    
+            happinessData.push(record);
+            localStorage.setItem("happinessData", JSON.stringify(happinessData));
+    
+            // Update the displayed information
+            document.getElementById("lastDate").innerHTML = currentDate.toDateString();
+            document.getElementById("happiness-form").innerHTML = happinessValue;
+            document.getElementById("notes-form").innerHTML = notesValue;
+    
+            // Create or update the chart
+            updateChart();
+        });
+    
+        // Function to update the chart
+        function updateChart() {
+            const ctx = document.getElementById("happinessChart").getContext("2d");
+    
+            // Extract dates and happiness values from the data
+            const dates = happinessData.map(record => new Date(record.date).toLocaleDateString());
+            const happinessValues = happinessData.map(record => record.happiness);
+    
+            // Create or update the chart
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Happiness Levels',
+                        data: happinessValues,
+                        borderColor: 'blue',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+        }
+    
+        // Initial chart setup
+        updateChart();
+
+        // Clear data
+        document.getElementById("clear-data").addEventListener("click", function (event) {
+            // ask for confirmation
+            if (!confirm("Are you sure you want to clear all data?")) {
+                return;
+            }
+            localStorage.clear();
+            location.reload();
+        });
+    </script>
+    
+    
+</body>
+</html>

@@ -6,6 +6,8 @@
     <title>Happiness Tracker</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@latest/dist/chartjs-adapter-date-fns.bundle.min.js"></script>  
+      
 </head>
 <body>
     <div class="jumbotron" style="background-color: #b6ffed;">
@@ -15,7 +17,7 @@
     </div>
     <div class="container">
         <h2>It's <span id="date"></span>.</h2>
-        <p>You recorded your happiness last time on <span id="lastDate"></span>.</p>
+        <p>You recorded your happiness last time on <span id="lastDate"></span> at <span id="lastTime"></span> (it was <span id="delta"></span> hours ago).</p>
     </div>
     <div class="container">
         <h2>Here's what you said last time:</h2>
@@ -23,7 +25,7 @@
         <p id="label-last-notes">You also said:</p>
         <div id="last-notes"></div>
         <style>
-            #last-notes {
+            .notes {
                 border: 2px solid #ccc;
                 padding: 10px;
                 margin-bottom: 10px;
@@ -74,6 +76,16 @@
     <div class="container">
         <canvas id="happinessChart"></canvas>
     </div>
+
+    <br>
+
+    <div class="container">
+        <button class="btn btn-info" id="print-notes">Print Notes</button>
+        <br>
+        <br>
+        <div id="old-notes"></div>
+    </div>
+
     
     <br>
 
@@ -86,20 +98,31 @@
     <script>
         // clean the local storage
         // localStorage.clear();
-        const date = new Date();
-        const today = date.toDateString();
-        document.getElementById("date").innerHTML = today;
-    
         // Load previous data from local storage
         let happinessData = JSON.parse(localStorage.getItem("happinessData")) || [];
+
+        // Get current date and time
+        const date = new Date();
+        const today = date.toDateString();
+        const time = date.toLocaleTimeString();
+        const lastRecordedDate = new Date(happinessData[happinessData.length - 1].date).toDateString();
+        const lastRecordedTime = new Date(happinessData[happinessData.length - 1].date).toLocaleTimeString();
+        const lastRecordedHappiness = happinessData[happinessData.length - 1].happiness;
+        const lastRecordedNotes = happinessData[happinessData.length - 1].notes;
+        const lastRecordedHours = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60 / 60);
+        const lastRecordedMinutes = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60);
+        const lastRecordedSeconds = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000);
+        const lastRecordedTimeDifference = lastRecordedHours + " hours, " + lastRecordedMinutes + " minutes, " + lastRecordedSeconds + " seconds";
+
+        // Display last recorded time
+        document.getElementById("date").innerHTML = today;
+        document.getElementById("lastDate").innerHTML = lastRecordedDate;
+        document.getElementById("lastTime").innerHTML = lastRecordedTime;
+        document.getElementById("happiness").innerHTML = lastRecordedHappiness;
+        document.getElementById("last-notes").innerHTML = lastRecordedNotes;
+        document.getElementById("delta").innerHTML = lastRecordedTimeDifference;
     
-        // Display last recorded date
-        if (happinessData.length > 0) {
-            const lastRecordedDate = new Date(happinessData[happinessData.length - 1].date).toDateString();
-            document.getElementById("lastDate").innerHTML = lastRecordedDate;
-            document.getElementById("happiness").innerHTML = happinessData[happinessData.length - 1].happiness;
-            document.getElementById("notes").innerHTML = happinessData[happinessData.length - 1].notes;
-        }
+    
     
         // Event listener for the form submission
         document.getElementById("submit-form").addEventListener("click", function (event) {
@@ -132,26 +155,44 @@
         // Function to update the chart
         function updateChart() {
             const ctx = document.getElementById("happinessChart").getContext("2d");
-    
+
+            // Check if there's an existing chart instance
+            const existingChart = Chart.getChart(ctx);
+
+            // If an existing chart is found, destroy it
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
             // Extract dates and happiness values from the data
-            const dates = happinessData.map(record => new Date(record.date).toLocaleDateString());
+            const dates = happinessData.map(record => new Date(record.date));
             const happinessValues = happinessData.map(record => record.happiness);
-    
+
             // Create or update the chart
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dates,
                     datasets: [{
                         label: 'Happiness Levels',
-                        data: happinessValues,
+                        data: happinessData.map(record => ({ x: new Date(record.date), y: record.happiness })),
                         borderColor: 'blue',
                         borderWidth: 2,
-                        fill: false
+                        fill: false,
+                        lineTension: 0.4, // Ajustez cette valeur pour la tension de la courbe (0.4 est juste un exemple)
                     }]
                 },
                 options: {
                     scales: {
+                        x: {
+                            type: 'time', // Set the x-axis type to 'time'
+                            time: {
+                                unit: 'day' // You can adjust the time unit as needed
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
                         y: {
                             beginAtZero: true,
                             max: 10
@@ -159,8 +200,9 @@
                     }
                 }
             });
+
         }
-    
+
         // Initial chart setup
         updateChart();
 
@@ -172,6 +214,24 @@
             }
             localStorage.clear();
             location.reload();
+        });
+
+        // Print notes
+        document.getElementById("print-notes").addEventListener("click", function (event) {
+            // ask for confirmation
+            if (!confirm("Are you sure you want to print all notes?")) {
+                return;
+            }
+            let notes = "";
+            for (let i = happinessData.length - 1; i >= 0; i--) {
+                const year = new Date(happinessData[i].date).getFullYear();
+                const month = new Date(happinessData[i].date).getMonth() + 1;
+                const day = new Date(happinessData[i].date).getDate();
+                const hours = new Date(happinessData[i].date).getHours();
+                const minutes = new Date(happinessData[i].date).getMinutes();
+                notes += "<li class='notes notes-container'><b>On the" + year + "-" + month + "-" + day + " at " + hours + ":" + minutes + "</b><br>" + happinessData[i].notes + "</li>";
+            }
+            document.getElementById("old-notes").innerHTML = notes;
         });
     </script>
     

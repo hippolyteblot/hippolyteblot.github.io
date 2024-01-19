@@ -20,7 +20,19 @@
     <div class="container">
         <h2>Here's what you said last time:</h2>
         <p>You said you were <span id="happiness"></span> happy.</p>
-        <p>You also said: <span id="notes"></span></p>
+        <p id="label-last-notes">You also said:</p>
+        <div id="last-notes"></div>
+        <style>
+            #last-notes {
+                border: 2px solid #ccc;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+            }
+            #label-last-notes {
+                margin-bottom: 0px;
+            }
+        </style>
     </div>
     <div class="container">
         <form>

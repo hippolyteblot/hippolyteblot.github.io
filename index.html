@@ -112,7 +112,7 @@
         const lastRecordedNotes = happinessData[happinessData.length - 1].notes;
         const lastRecordedHours = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60 / 60);
         const lastRecordedMinutes = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000 / 60) - lastRecordedHours * 60;
-        const lastRecordedSeconds = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000) - lastRecordedMinutes * 60;
+        const lastRecordedSeconds = Math.floor((date - new Date(happinessData[happinessData.length - 1].date)) / 1000) - lastRecordedMinutes * 60 - lastRecordedHours * 60 * 60;
         const lastRecordedTimeDifference = lastRecordedHours + " hours, " + lastRecordedMinutes + " minutes, " + lastRecordedSeconds + " seconds";
 
         // Display last recorded time
@@ -229,7 +229,7 @@
                 const day = new Date(happinessData[i].date).getDate();
                 const hours = new Date(happinessData[i].date).getHours();
                 const minutes = new Date(happinessData[i].date).getMinutes();
-                notes += "<li class='notes notes-container'><b>On the" + year + "-" + month + "-" + day + " at " + hours + ":" + minutes + "</b><br>" + happinessData[i].notes + "</li>";
+                notes += "<li class='notes notes-container'><b>On the " + year + "-" + month + "-" + day + " at " + hours + ":" + minutes + "</b><br>" + happinessData[i].notes + "</li>";
             }
             document.getElementById("old-notes").innerHTML = notes;
         });

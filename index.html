@@ -150,6 +150,17 @@
     
             // Create or update the chart
             updateChart();
+
+            // Clear the form
+            document.getElementById("happiness-form").value = 5;
+            document.getElementById("notes-form").value = "";
+
+            // Update last recorded time
+            document.getElementById("lastDate").innerHTML = currentDate.toDateString();
+            document.getElementById("lastTime").innerHTML = currentDate.toLocaleTimeString();
+            document.getElementById("happiness").innerHTML = happinessValue;
+            document.getElementById("last-notes").innerHTML = notesValue;
+            document.getElementById("delta").innerHTML = "0 hours, 0 minutes, 0 seconds";
         });
     
         // Function to update the chart
@@ -229,7 +240,10 @@
                 const day = new Date(happinessData[i].date).getDate();
                 const hours = new Date(happinessData[i].date).getHours();
                 const minutes = new Date(happinessData[i].date).getMinutes();
-                notes += "<li class='notes notes-container'><b>On the " + year + "-" + month + "-" + day + " at " + hours + ":" + minutes + "</b><br>" + happinessData[i].notes + "</li>";
+                const color = "rgb(" + (255 - happinessData[i].happiness * 25.5) + ", " + (happinessData[i].happiness * 25.5) + ", 0)";
+                // From green to red depending on the happiness value
+                notes += "<li class='notes notes-container'>On the " + day + "/" + month + "/" + year + " at " + hours + ":" + minutes + 
+                    ".<b style='color:" + color + "'> " + happinessData[i].happiness + "/10</b><br>" + happinessData[i].notes + "</li>";
             }
             document.getElementById("old-notes").innerHTML = notes;
         });

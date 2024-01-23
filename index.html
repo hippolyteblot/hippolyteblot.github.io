@@ -242,7 +242,7 @@
                 const minutes = new Date(happinessData[i].date).getMinutes();
                 const color = "rgb(" + (255 - happinessData[i].happiness * 25.5) + ", " + (happinessData[i].happiness * 25.5) + ", 0)";
                 // From green to red depending on the happiness value
-                notes += "<li class='notes notes-container'>On the <b>" + day + "/" + month + "/" + year + "</b> at <b>" + hours + ":" + minutes + 
+                notes += "<li class='notes notes-container' style='border-color:" + color + "'>On the <b>" + day + "/" + month + "/" + year + "</b> at <b>" + hours + ":" + minutes + 
                     "</b>.<b style='color:" + color + "'> " + happinessData[i].happiness + "/10</b><br>" + happinessData[i].notes + "</li>";
             }
             document.getElementById("old-notes").innerHTML = notes;

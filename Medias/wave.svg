@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1600"
+   height="198"
+   version="1.1"
+   id="svg31"
+   sodipodi:docname="wave.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview33"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.066875"
+     inkscape:cx="803.74927"
+     inkscape:cy="134.50498"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg31" />
+  <defs
+     id="defs27">
+    <linearGradient
+       id="a"
+       x1="50%"
+       x2="50%"
+       y1="-10.959%"
+       y2="100%">
+      <stop
+         stop-color="#57BBC1"
+         stop-opacity=".25"
+         offset="0%"
+         id="stop22" />
+      <stop
+         stop-color="#015871"
+         offset="100%"
+         id="stop24" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Color Shift"
+       id="filter2874"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="hueRotate"
+         values="86"
+         result="color1"
+         id="feColorMatrix2870" />
+      <feColorMatrix
+         type="saturate"
+         values="1"
+         result="color2"
+         id="feColorMatrix2872" />
+    </filter>
+  </defs>
+  <path
+     fill="url(#a)"
+     fill-rule="evenodd"
+     d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+     transform="matrix(-1 0 0 1 1600 0)"
+     id="path29"
+     style="filter:url(#filter2874)" />
+</svg>

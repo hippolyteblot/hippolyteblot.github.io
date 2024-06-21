@@ -1,188 +1,572 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KDO</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-    <style>
-        #main-illustration {
-            width: 50%;
-            height: auto;
-        }
-        #main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        #conv {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 500px;
-            padding: 10px;
-            background-color: #fff;
-            margin-top: 20px;
-        }
-        .chat-box {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            padding: 10px;
-        }
-        .chat-content {
-            background-color: #f1f1f1;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 10px;
-            max-width: 80%;
-        }
-        .pikachu-chat .chat-content {
-            align-self: flex-start;
-            background-color: #e0f7fa;
-        }
-        .tortipouss-chat .chat-content {
-            align-self: flex-end;
-            background-color: #ffe0b2;
-        }
-        .chat-input {
-            display: flex;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            margin-right: 10px;
-        }
-        .chat-input button {
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-        }
-        .chat-line {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-        }
-    </style>
-</head>
-<body class="container">
-    <h1>Excuses de Pikachu pour Tortipouss</h1>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="GitLab Pages">
+    <title>Too Drunk</title>
+    <meta name="description" content="Too Drunk te permet de calculer ton taux d'alcoolémie. Il se base
+    sur tes caractéristiques ainsi que sur ce que tu as bu.">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5 minimum-scale=0.5 maximum-scale=0.5">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="Medias/logo.png">
+    <link rel="apple-touch-icon" href="Medias/iconV2.png">
+    
+  </head>
+  <body>
+    <div id="main">
 
-    <!-- chat bot integration -->
-    <div class="container" id="main-container">
-        <img src="pikatorti.jpg" alt="Pikachu et Tortipouss" id="main-illustration">
-        <div id="conv">
-            <div class="chat-box">
-                <div class="row pikachu-chat chat-line">
-                    <img src="pikachu.png" alt="Pikachu" class="img-fluid" style="width: 50px; height: 50px;">
-                    <div class="chat-content">
-                        <p>Salut Tortipouss, comment je peux me faire pardonner ?</p>
-                    </div>
-                </div>
-                <!-- Messages will be appended here -->
-            </div>
-            <div class="chat-input">
-                <input type="text" id="message-input" placeholder="Écris un message...">
-                <button onclick="sendMessage()">Envoyer</button>
-            </div>
-        </div>
+      <div id="loader">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div id="firstt">
+      <section id="begin-page">
+
+        <div class="circle circle1"></div>
+        <div class="circle circle2"></div>
+        <div class="circle circle3"></div>
+
+        <div class="img"></div>
+
+        <article id="presentation">
+          <h1>Too Drunk ?</h1>
+          <p>Bienvenue sur Too Drunk. Ce site te permet de calculer ton taux d'alcoolémie
+            approximatif à partir de ce que tu as bu. N'hésite pas à essayer !
+          </p>
+
+          <a class="HOVER" href="#clac1">
+          <span>Calculer</span>
+          </a>
+
+        </article>
+        
+        <div id="clac1"></div>
+        
+      </section>
+    </div>
+
+    <div class="ocean">
+      <div class="wave"></div>
+      <div class="wave"></div>
     </div>
     
-    <script>
-        let messages = [
-            {
-                role: "system",
-                content: "Tu es Pikachu. Tu as fait une bêtise en mentant à Tortipouss. Tu veux te faire pardonner à 100%. Fais de ton mieux. Tu peux lui parler du fait qu'elle aimerait bien faire un orga dans l'assocaition des 24H de l'INSA (il s'agit d'un rôle important au sein de l'association), qu'elle aime bien les chats et que tu y ressembles un peu, que ce que tu viens de coder mérite d'être pardonné à 100%, que tu lui feras un câlin. FAIS DES MESSAGES BREF (quelques mots) et ne dis pas tout ça à chaque fois, garde des arguments pour plus tard."
-            },
-            {
-                role: "assistant",
-                content: "Salut Tortipouss, comment je peux me faire pardonner ?"
-            }
-        ];
 
-        async function sendMessage() {
-            const messageInput = document.getElementById('message-input');
-            const message = messageInput.value.trim();
-            
-            if (message !== "") {
-                const chatBox = document.querySelector('.chat-box');
+      <section id="calc">
+        <article>
+          <h2>Dis-nous en plus...</h2>
+          <div class="questions">
 
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('row', 'tortipouss-chat');
-                messageElement.innerHTML = `
-                    <img src="tortipouss.png" alt="Tortipouss" class="img-fluid" style="width: 50px; height: 50px;">
-                    <div class="chat-content">
-                        <p>${message}</p>
-                    </div>
-                `;
-                chatBox.appendChild(messageElement);
-                
-                chatBox.scrollTop = chatBox.scrollHeight;
-                    
-                messageInput.value = "";
-                
-                messages.push({
-                    role: "user",
-                    content: message
-                });
+            <p>Tu es ?</p>
+            <div class="rep">
+              <select id="sexe">
+                <option value="h">Un homme</option>
+                <option value="f">Une femme</option>
+              </select>
+              
+            </div>
 
-                const response = await getResponseFromAPI();
-                
-                const pikachuMessageElement = document.createElement('div');
-                pikachuMessageElement.classList.add('row', 'pikachu-chat', 'chat-line');
-                pikachuMessageElement.innerHTML = `
-                    <img src="pikachu.png" alt="Pikachu" class="img-fluid" style="width: 50px; height: 50px;">
-                    <div class="chat-content">
-                        <p>${response}</p>
-                    </div>
-                `;
-                chatBox.appendChild(pikachuMessageElement);
-                
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        }
-        
-        async function getResponseFromAPI() {
-            const msg = "U2FsdGVkX1/EWdL+EzrFHxxp1rXWv5i4xHFHGNiTF9QFe+AOj2fXYTH3XZgrg4Wnf84dt6IN/M7sxaYXwAzRh0Hw2Mq41aR45a/SL2arcTU=";
-            let value = CryptoJS.AES.decrypt(msg, "pikachu").toString(CryptoJS.enc.Utf8);
-            value = value.replace(/"/g, "");
-            const apiUrl = "https://api.openai.com/v1/chat/completions";
-            
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${value}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: messages
-                })
-            });
-            
-            const data = await response.json();
-            const pikachuResponse = data.choices[0].message.content;
+            <p>Tu pèses ? (sans vouloir être indiscret)</p>
+            <div class="rep">
+              <label><input name="poids" type="number" id="poids"> Kg</label>
+            </div>
 
-            messages.push({
-                role: "assistant",
-                content: pikachuResponse
-            });
+            <p>Tu es à jeun ?</p>
+            <div class="rep">
+              <select id="jeun">
+                <option value="1">Oui</option>
+                <option value="0">Non</option>
+              </select>
+              
+            </div>
+            <br>
 
-            return pikachuResponse;
-        }
-    </script>
-</body>
+            <a class="HOVER2" href="#alcool">
+              <span>On passe à l'alcool !</span>
+              </a>
+
+          </div>
+        </article>
+      </section>
+
+      <div class="ocean ocean2">
+        <div class="wave"></div>
+        <div class="wave"></div>
+      </div>
+      <div id="alcool"></div>
+
+      <section id="drunked">
+
+        <article>
+          <h2>Qu'as-tu bu ?</h2>
+          <div class="questions topast">
+            <div class="copie 1">
+              <h2>Boisson 1</h2>
+              <p>Quel volume as-tu bu ?</p>
+              <div class="rep">
+                <label><input name="quantité" type="number" id="quantite1"> cL</label>
+              </div>
+
+              <p>A quel degrés d'alcool était cette boisson ?</p>
+              <div class="rep">
+                <label><input name="degré" type="number" id="degre1"> ° d'alcool</label>
+              </div>
+            </div>
+          </div>
+
+          <button id="ajt-alcool">+</button>
+          <a id="last" href="#number-result">
+            <span id="text">Résultat</span>
+          </a>
+          
+
+        </article>
+
+      </section>
+
+      <section id="result">
+
+        <article>
+          <h2>Tu auras environ <span id="number-result"></span> 
+            grammes d'alcool dans le sang au maximum (à titre indicatif bien sûr)</h2>
+          <br>
+          <h2>Effets probables :</h2>
+          <div id="effect">
+          </div>
+          <br>
+          <h2>Evolution au cours du temps :</h2>
+          <canvas id="graph"></canvas>
+        </article>
+
+      </section>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" 
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="hover.js"></script>
+    </div>
+  </body>
+
+    <style>
+        html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;  /* Firefox */
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: sans-serif;
+  margin: auto;
+  --couleur1: #542259;
+  --couleur2: #8F5AFF;
+  overflow-x: hidden;
+}
+.circle {
+  position: absolute;
+  z-index: 1;
+  content: " ";
+  height: 20vw;
+  width: 20vw;
+  border-radius: 50%;
+}
+
+.circle1 {
+  transform: rotate(45deg);
+  top: 5vh;
+  right: 10%;
+  background: linear-gradient(var(--couleur1), var(--couleur2));
+}
+
+.circle2 {
+  transform: rotate(45deg);
+  z-index: -1;
+  top: 25vh;
+  left: 5vh;
+  background: linear-gradient(
+  to bottom,
+  #00000000,
+  #5d963400 70%,
+  #000000 50%
+  );
+  background-size: 100% 30px;
+}
+
+#presentation {
+  position: absolute;
+  padding: 2vh;
+  left: 10vw;
+  bottom: 20vh;
+  background-color: rgb(241, 241, 241);
+  width: 40%;
+  height: auto;
+  padding: 3vh;
+}
+#presentation p {
+  font-size: 2em;
+}
+#presentation a, a {
+  color: rgb(221, 221, 221);
+  padding: 1.25vh;
+  border-radius: 25px;
+  font-size: 2em;
+  text-decoration: none;
+  
+  background: var(--couleur1); /* fallback color if gradients are not supported*/ 
+  background: linear-gradient(to right, var(--couleur1), var(--couleur2));
+}
+.HOVER2 {
+  color: rgb(221, 221, 221);
+  padding: 1.25vh;
+  margin: 2vh;
+  border-radius: 25px;
+  font-size: 1em;
+  text-decoration: none;
+  
+  background: var(--couleur1); /* fallback color if gradients are not supported*/ 
+  background: linear-gradient(to right, var(--couleur1), var(--couleur2));
+}
+
+
+.img {
+  position: absolute;
+  top: 15vh;
+  left: 20vw;
+  z-index: 0;
+  height: 60vh;
+  width: 60vw;
+  max-height: 40%;
+
+  background-image: url("Medias/bg1.jpg");
+}
+
+h1 {
+  font-size: 72px;
+  background: -webkit-linear-gradient(var(--couleur1), var(--couleur2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 45px;
+  margin: 1vh;
+}
+h2 {
+  font-size: 52px;
+  background: -webkit-linear-gradient(var(--couleur1), var(--couleur2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 45px;
+  margin: 1vh;
+  padding: 2vh;
+}
+#clac1 {
+  position: absolute;
+  bottom: 10vh;
+}
+.questions p {
+  margin: 0.8em;
+}
+#calc {
+  width: 100%;
+  padding-bottom: 2vh;
+  height: auto;
+  position: relative;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #6C4DB4;
+}
+#alcool {
+  position: absolute;
+  top: 190vh;
+}
+button {
+  margin-left: 30px;
+  margin-bottom: 30px;
+  border: none;
+  color: rgb(221, 221, 221);
+  height: 6vh;
+  width: 6vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  font-size: 2em;
+  text-decoration: none;
+
+  box-shadow:0 2px 3px 0px rgba(0,0,0,0.25);
+  border-radius: 25px;
+  transition:.2s all; 
+  box-shadow:0 8px 20px 0px rgba(0,0,0,0.45);
+  
+  background: var(--couleur1); /* fallback color if gradients are not supported*/ 
+  background: linear-gradient(to right, var(--couleur1), var(--couleur2));
+}
+
+#firstt {
+  height: 105vh;
+  width: 100%;
+}
+
+section article {
+  width: 80%;
+  height: fit-content;
+  background-color: rgb(241, 241, 241);
+  border-radius: 20px;
+  margin: 2vh;
+}
+
+
+.ocean { 
+  position: relative;
+  height: 5%;
+  width: 105vw;
+  background-color: #6C4DB4;
+}
+.ocean2 {
+  transform: rotate(180deg);
+}
+.copie {
+  border: solid #6C4DB4 3px;
+  border-radius: 25px;
+  width: 90%;
+  padding: 1vh;
+  margin: 1vh;
+  padding-bottom: 15px;
+  padding-top: 0;
+}
+.wave {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+  filter: invert(34%) sepia(97%) saturate(1642%) hue-rotate(228deg) brightness(70%) contrast(102%);
+  position: absolute;
+  top: -198px;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+  top: -175px;
+  animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+  opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0,-25px,0);
+  }
+  50% {
+    transform: translate3d(0,5px,0);
+  }
+}
+
+
+
+
+
+
+a {
+  width:30%;
+  box-shadow:0 2px 3px 0px rgba(0,0,0,0.25);
+  transition:.2s all; 
+  box-shadow:0 8px 20px 0px rgba(0,0,0,0.45);
+}
+
+a:hover, button:hover{
+  transform:scale(1);
+  filter:blur(0px);
+  opacity:0.8;
+  box-shadow:0 0px 0px 0px rgba(0,0,0,0.45);
+  
+}
+
+
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -10;
+  opacity: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  animation: load 2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20vh;
+}
+
+@keyframes load {
+  0%, 50% {
+    opacity: 1;
+    z-index: 10;
+  }
+  70% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .circle {
+    width: 40vw;
+    height: 40vw;
+  }
+  .circle2 {
+    position: absolute;
+    bottom: 10vh;
+    right: 20vw;
+  }
+}
+
+#last {
+  padding: 15px;
+  margin: 30px;
+  margin-bottom: 50px;
+}
+
+
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  
+  background: linear-gradient(var(--couleur1), var(--couleur2));
+
+  margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+.questions {
+  padding: 3vh;
+  padding-top: 0;
+  font-size: 30px;
+}
+
+input[type=text], input[type=number], select, textarea {
+  width: auto;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 20px;
+}
+input[type=number] {
+  width: 5vw;
+}
+input, select {
+  margin-left: 5vh;
+}
+#drunked {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+#drunked article {
+  margin-top: 30vh;
+  width: 80%;
+  height: fit-content;
+  padding-bottom: 5vh;
+}
+
+#result {
+  position: relative;
+  margin-top: 10vh;
+  display: none;
+  justify-content: center;
+}
+
+#graph {
+  margin: 10px;
+}
+    </style>
 </html>

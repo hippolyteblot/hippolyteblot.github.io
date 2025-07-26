@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url('wallpaper.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.album-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.album {
+    position: relative;
+    width: 90%;
+    height: 80%;
+    max-width: 1400px;
+    max-height: 1000px;
+    perspective: 2000px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Page de garde (affichée seule) */
+.book-page.cover-page {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: auto;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.book-page.cover-page.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: rotateY(-180deg);
+}
+
+.book-page.cover-page .page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+/* Spreads (double-pages) */
+.spread {
+    position: absolute;
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    /* transition: opacity 0.25s ease; */
+}
+
+.spread.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Spread au-dessus pendant l'animation */
+.spread.top-spread {
+    z-index: 300 !important;
+}
+
+.spread .page {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spread .page .page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+/* Page de droite qui tourne avec verso */
+.spread .page.right-page {
+    transform-origin: left center;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+.spread .page.right-page.flipping {
+    animation: pageFlip 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 400 !important;
+}
+
+/* Verso de la page (dos de la page) */
+.spread .page.right-page .page-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    border-radius: 8px;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+/* Image du verso (page suivante) */
+.spread .page.right-page .page-back .verso-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background: white;
+}
+
+/* Page suivante qui apparaît progressivement */
+.spread .page.next-page {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.spread .page.next-page.revealing {
+    opacity: 1;
+}
+
+@keyframes pageFlip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0,0,0,0.25);
+    }
+    100% {
+        transform: rotateY(-180deg);
+    }
+}
+
+/* Effet de reliure au centre */
+.spread::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #8B4513, #A0522D, #8B4513);
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* Ombres pour l'effet de profondeur */
+.spread {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.spread .page.left-page {
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.spread .page.right-page {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nav-btn span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.page-indicator {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .album {
+        width: 95%;
+        height: 75%;
+        max-width: none;
+        max-height: none;
+    }
+    
+    .spread {
+        flex-direction: column;
+    }
+    
+    .spread .page {
+        width: 100%;
+        height: 50%;
+    }
+    
+    /* Effet de reliure horizontal sur mobile */
+    .spread::after {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        transform: translateY(-50%);
+    }
+    
+    .controls {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .navigation {
+        padding: 12px 20px;
+        gap: 15px;
+    }
+    
+    .nav-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    
+    .btn-text {
+        display: none;
+    }
+    
+    .page-indicator {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+    
+    .control-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Mode plein écran */
+.album-container.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #000;
+}
+
+.album-container.fullscreen .album {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+}
+
+.album-container.fullscreen .navigation {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Animation d'entrée */
+.album-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Amélioration de l'accessibilité */
+.nav-btn:focus,
+.control-btn:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.page-image.loading {
+    opacity: 0.7;
+} 

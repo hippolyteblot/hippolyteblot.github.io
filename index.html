@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Photo Numérique</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="album-container">
+        <div class="album">
+            <!-- Page de garde (affichée seule) -->
+            <div class="book-page cover-page" data-page="1">
+                <img src="images/1.png" alt="Page de garde" class="page-image">
+            </div>
+            
+            <!-- Spread 1: Pages 2-3 -->
+            <div class="spread" data-spread="1">
+                <div class="page left-page" data-page="2">
+                    <img src="images/2.png" alt="Page 2" class="page-image">
+                </div>
+                <div class="page right-page" data-page="3">
+                    <img src="images/3.png" alt="Page 3" class="page-image">
+                    <div class="page-back">
+                        <img src="images/4.png" alt="Page 4" class="verso-image">
+                    </div>
+                </div>
+            </div>
+            <!-- Spread 2: Pages 4-5 -->
+            <div class="spread" data-spread="2">
+                <div class="page left-page" data-page="4">
+                    <img src="images/4.png" alt="Page 4" class="page-image">
+                </div>
+                <div class="page right-page" data-page="5">
+                    <img src="images/5.png" alt="Page 5" class="page-image">
+                    <div class="page-back">
+                        <img src="images/6.png" alt="Page 6" class="verso-image">
+                    </div>
+                </div>
+            </div>
+            <!-- Spread 3: Pages 6-7 -->
+            <div class="spread" data-spread="3">
+                <div class="page left-page" data-page="6">
+                    <img src="images/6.png" alt="Page 6" class="page-image">
+                </div>
+                <div class="page right-page" data-page="7">
+                    <img src="images/7.png" alt="Page 7" class="page-image">
+                    <div class="page-back">
+                        <img src="images/8.png" alt="Page 8" class="verso-image">
+                    </div>
+                </div>
+            </div>
+            <!-- Spread 4: Pages 8-9 -->
+            <div class="spread" data-spread="4">
+                <div class="page left-page" data-page="8">
+                    <img src="images/8.png" alt="Page 8" class="page-image">
+                </div>
+                <div class="page right-page" data-page="9">
+                    <img src="images/9.png" alt="Page 9" class="page-image">
+                    <div class="page-back">
+                        <img src="images/10.png" alt="Page 10" class="verso-image">
+                    </div>
+                </div>
+            </div>
+            <!-- Spread 5: Pages 10-11 (page 11 seule à droite) -->
+            <div class="spread" data-spread="5">
+                <div class="page left-page" data-page="10">
+                    <img src="images/10.png" alt="Page 10" class="page-image">
+                </div>
+                <div class="page right-page" data-page="11">
+                    <img src="images/11.png" alt="Page 11" class="page-image">
+                    <!-- Pas de verso pour la dernière page -->
+                    <div class="page-back">
+                        <div class="verso-image" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999; font-size: 18px;">
+                            Fin de l'album
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn prev-btn" id="prevBtn" disabled>
+                <span>‹</span>
+                <span class="btn-text">Précédent</span>
+            </button>
+            
+            <div class="page-indicator">
+                <span id="currentPage">1</span> / <span id="totalPages">11</span>
+            </div>
+            
+            <button class="nav-btn next-btn" id="nextBtn">
+                <span class="btn-text">Suivant</span>
+                <span>›</span>
+            </button>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="fullscreenBtn">
+                <span>⛶</span>
+                <span class="btn-text">Plein écran</span>
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

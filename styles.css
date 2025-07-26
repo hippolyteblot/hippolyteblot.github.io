@@ -283,62 +283,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .album {
-        width: 95%;
-        height: 75%;
-        max-width: none;
-        max-height: none;
-    }
-    
-    .spread {
-        flex-direction: column;
-    }
-    
-    .spread .page {
-        width: 100%;
-        height: 50%;
-    }
-    
-    /* Effet de reliure horizontal sur mobile */
-    .spread::after {
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        transform: translateY(-50%);
-    }
-    
-    .controls {
-        top: 10px;
-        right: 10px;
-    }
-    
-    .navigation {
-        padding: 12px 20px;
-        gap: 15px;
-    }
-    
-    .nav-btn {
-        padding: 10px 15px;
-        font-size: 14px;
-    }
-    
-    .btn-text {
-        display: none;
-    }
-    
-    .page-indicator {
-        font-size: 16px;
-        padding: 6px 12px;
-    }
-    
-    .control-btn {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-}
+
 
 /* Mode plein écran */
 .album-container.fullscreen {

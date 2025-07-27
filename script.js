@@ -17,11 +17,12 @@ class AlbumBook {
         const targetDate = new Date('2025-07-28');
         
         // Si on est avant le 28 juillet 2024, utiliser images_old
-        if (currentDate < targetDate) {
-            return 'images_old';
-        } else {
-            return 'images';
-        }
+        // if (currentDate < targetDate) {
+        //     return 'images_old';
+        // } else {
+        //     return 'images';
+        // }
+        return 'images';
     }
 
     updateImageSources() {
